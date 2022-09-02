@@ -1,13 +1,24 @@
 import * as Style from './style';
 import React from 'react';
+import { ErrorComment } from './style';
 
 interface TextInputProps {
   label: string;
   type: string;
-  onInput?: React.FormEventHandler;
+  value: string;
+  error: string;
+  onChange?: React.FormEventHandler;
+  onFocusOut?: React.FocusEventHandler<HTMLInputElement>;
 }
 
-export const TextInput = ({ label, type, onInput }: TextInputProps) => {
+export const TextInput = ({
+  label,
+  type,
+  value = '',
+  error,
+  onChange,
+  onFocusOut,
+}: TextInputProps) => {
   const inputOnBlur = () => {
     console.log('test');
   };
@@ -15,7 +26,14 @@ export const TextInput = ({ label, type, onInput }: TextInputProps) => {
   return (
     <Style.container>
       <div>{label}</div>
-      <Style.TextInput onBlur={inputOnBlur} type={type} onInput={onInput} />
+      {error.length > 0 ? (
+        <>
+          <Style.ErrorTextInput onBlur={onFocusOut} type={type} onChange={onChange} value={value} />
+          <Style.ErrorComment>{error}</Style.ErrorComment>
+        </>
+      ) : (
+        <Style.TextInput onBlur={onFocusOut} type={type} onChange={onChange} value={value} />
+      )}
     </Style.container>
   );
 };
