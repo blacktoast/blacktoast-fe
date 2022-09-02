@@ -22,7 +22,6 @@ const LoginPage: NextPage = () => {
   };
 
   const idFocusOut = () => {
-    console.log('id');
     if (!idValidate(id)) setError({ ...error, id: ERROR_INPUT_ID });
   };
 
@@ -69,6 +68,7 @@ const LoginPage: NextPage = () => {
           onChange={idOnChange}
           onFocusOut={idFocusOut}
         />
+
         <TextInput
           label='비밀번호'
           type='password'
