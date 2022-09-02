@@ -1,9 +1,55 @@
 import Link from 'next/link';
 import type { NextPage } from 'next';
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
+import { TextInput } from '../components/TextInput';
+
+const ERROR_INPUT_ID = '올바른 아이디 형식으로 입력해주세요.';
+const ERROR_INPUT_PASSWORD = '올바른 비밀번호 형식으로 입력해주세요.';
 
 const LoginPage: NextPage = () => {
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState({
+    id: '',
+    password: '',
+  });
+
+  const idOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setId(value);
+    if (idValidate(value)) setError({ ...error, id: '' });
+  };
+
+  const idFocusOut = () => {
+    console.log('id');
+    if (!idValidate(id)) setError({ ...error, id: ERROR_INPUT_ID });
+  };
+
+  const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setPassword(value);
+    if (passwordValidate(value)) setError({ ...error, password: '' });
+  };
+
+  const passwordFocusOut = () => {
+    if (!passwordValidate(password)) setError({ ...error, password: ERROR_INPUT_PASSWORD });
+  };
+  const idValidate = (input: string) => {
+    if (input.length < 5 || input.length > 30) {
+      return false;
+    }
+    return true;
+  };
+
+  const passwordValidate = (input: string) => {
+    const regPassword = /(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,30}/g;
+    if (!regPassword.test(input)) {
+      return false;
+    }
+    return true;
+  };
+
   return (
     <>
       <Header>
@@ -15,10 +61,23 @@ const LoginPage: NextPage = () => {
         </Link>
       </Header>
       <Form>
-        <div>아이디</div>
-        <TextInput type='text' />
-        <div>비밀번호</div>
-        <TextInput type='password' />
+        <TextInput
+          label='아이디'
+          type='text'
+          value={id}
+          error={error.id}
+          onChange={idOnChange}
+          onFocusOut={idFocusOut}
+        />
+        <TextInput
+          label='비밀번호'
+          type='password'
+          value={password}
+          error={error.password}
+          onChange={onPasswordChange}
+          onFocusOut={passwordFocusOut}
+        />
+
         <LoginButton disabled>로그인</LoginButton>
       </Form>
     </>
@@ -43,10 +102,6 @@ const Form = styled.div`
   flex-direction: column;
   margin-top: 40px;
   padding: 0 20px 40px;
-`;
-
-const TextInput = styled.input`
-  border: 1px solid #000;
 `;
 
 const LoginButton = styled.button`
