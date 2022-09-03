@@ -11,33 +11,48 @@ const LoginPage: NextPage = () => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState({
-    id: '',
-    password: '',
+    id,
+    password,
   });
 
   const isLoginBtnAble = () => {
-    if (error.id.length > 0 || error.password.length > 0) return false;
+    if (
+      id.length === 0 ||
+      password.length === 0 ||
+      error.id.length > 0 ||
+      error.password.length > 0
+    )
+      return false;
+
     return true;
   };
 
   const idOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setId(value);
-    if (idValidate(value)) setError({ ...error, id: '' });
+    if (idValidate(value)) {
+      setError({ ...error, id: '' });
+    }
   };
 
   const idFocusOut = () => {
-    if (!idValidate(id)) setError({ ...error, id: ERROR_INPUT_ID });
+    if (!idValidate(id)) {
+      setError({ ...error, id: ERROR_INPUT_ID });
+    }
   };
 
   const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setPassword(value);
-    if (passwordValidate(value)) setError({ ...error, password: '' });
+    if (passwordValidate(value)) {
+      setError({ ...error, password: '' });
+    }
   };
 
   const passwordFocusOut = () => {
-    if (!passwordValidate(password)) setError({ ...error, password: ERROR_INPUT_PASSWORD });
+    if (!passwordValidate(password)) {
+      setError({ ...error, password: ERROR_INPUT_PASSWORD });
+    }
   };
 
   const idValidate = (input: string) => {
@@ -53,6 +68,12 @@ const LoginPage: NextPage = () => {
       return false;
     }
     return true;
+  };
+
+  const loginOnClick = (e) => {
+    console.log(error);
+
+    console.log(e);
   };
 
   return (
@@ -85,7 +106,9 @@ const LoginPage: NextPage = () => {
         />
 
         {isLoginBtnAble() ? (
-          <LoginButton>로그인</LoginButton>
+          <LoginButton type='submit' onClick={loginOnClick}>
+            로그인
+          </LoginButton>
         ) : (
           <LoginButton disabled>로그인</LoginButton>
         )}
