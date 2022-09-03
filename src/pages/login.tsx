@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { NextPage } from 'next';
 import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
-import { TextInput } from '../components/TextInput';
+import { TextInput } from '../components/';
 
 const ERROR_INPUT_ID = '올바른 아이디 형식으로 입력해주세요.';
 const ERROR_INPUT_PASSWORD = '올바른 비밀번호 형식으로 입력해주세요.';
@@ -56,14 +56,15 @@ const LoginPage: NextPage = () => {
   };
 
   const idValidate = (input: string) => {
-    if (input.length < 5 || input.length > 30) {
+    const regxId = /[a-zA-Z0-9]{5,30}/;
+    if (!regxId.test(input)) {
       return false;
     }
     return true;
   };
 
   const passwordValidate = (input: string) => {
-    const regPassword = /(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,30}/g;
+    const regPassword = /(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,30}/;
     if (!regPassword.test(input)) {
       return false;
     }
