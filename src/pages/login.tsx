@@ -15,6 +15,11 @@ const LoginPage: NextPage = () => {
     password: '',
   });
 
+  const isLoginBtnAble = () => {
+    if (error.id.length > 0 || error.password.length > 0) return false;
+    return true;
+  };
+
   const idOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setId(value);
@@ -34,6 +39,7 @@ const LoginPage: NextPage = () => {
   const passwordFocusOut = () => {
     if (!passwordValidate(password)) setError({ ...error, password: ERROR_INPUT_PASSWORD });
   };
+
   const idValidate = (input: string) => {
     if (input.length < 5 || input.length > 30) {
       return false;
@@ -78,7 +84,11 @@ const LoginPage: NextPage = () => {
           onFocusOut={passwordFocusOut}
         />
 
-        <LoginButton disabled>로그인</LoginButton>
+        {isLoginBtnAble() ? (
+          <LoginButton>로그인</LoginButton>
+        ) : (
+          <LoginButton disabled>로그인</LoginButton>
+        )}
       </Form>
     </>
   );
