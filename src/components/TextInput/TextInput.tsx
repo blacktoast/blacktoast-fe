@@ -1,6 +1,5 @@
 import * as Style from './style';
 import React from 'react';
-import { ErrorComment } from './style';
 
 interface TextInputProps {
   label: string;
@@ -19,10 +18,6 @@ export const TextInput = ({
   onChange,
   onFocusOut,
 }: TextInputProps) => {
-  const inputOnBlur = () => {
-    console.log('test');
-  };
-
   return (
     <Style.container>
       <div>{label}</div>
