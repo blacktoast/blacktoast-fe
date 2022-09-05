@@ -19,6 +19,14 @@ export const setCookieForToken = (token: string) => {
   document.cookie = `token=${token}; path=/; expires=${expireTime.toUTCString()}`;
 };
 
+export const removeCookieForToken = (token: string) => {
+  const expireTime = new Date(Date.now());
+  document.cookie = `token=${token}; path=/; expires=${expireTime.toUTCString()}`;
+
+  if (!document.cookie) return true;
+  return false;
+};
+
 export const getTokenByCookie = () => {
   const { cookie } = document;
   return cookie.split('=')[1];
