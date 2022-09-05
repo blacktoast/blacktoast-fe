@@ -2,15 +2,20 @@ import Link from 'next/link';
 import * as Style from './style';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store';
-import { getMe } from '../../apis';
-import { getTokenByCookie } from '../../utilities/index';
 import { useIsLogin } from '../../hooks/useIsLogin';
+import { userLogout } from '../../apis';
 
 export const Header = ({}) => {
-  const [isLoginState, setISLoginState] = useIsLogin();
+  const [isLoginState, setIsLoginState] = useIsLogin();
   const [user, setUser] = useRecoilState(userState);
 
-  const logoutOnClick = () => {};
+  const logoutOnClick = async () => {
+    if (await userLogout(user.token)) {
+      setUser({ id: '', name: '', token: '' });
+    }
+
+    setIsLoginState(false);
+  };
 
   return (
     <Style.Header>
