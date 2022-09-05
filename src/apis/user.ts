@@ -1,4 +1,5 @@
 import { User } from '../types/user';
+import { removeCookieForToken } from '../utilities';
 import { apiClient } from './api';
 
 type loginUser = {
@@ -16,6 +17,17 @@ export const userLogin = async ({ id, password }: loginUser) => {
     const data = await apiClient.post<responseLogin>('/login', JSON.stringify({ id, password }));
 
     return data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const userLogout = async (token: string) => {
+  try {
+    if (removeCookieForToken(token)) {
+      return true;
+    }
+    return false;
   } catch (error) {
     console.log(error);
   }
