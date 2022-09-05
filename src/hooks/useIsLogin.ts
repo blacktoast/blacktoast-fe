@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { getMe } from '../apis';
 import { userState } from '../store';
 import { getTokenByCookie, isLogin } from '../utilities';
 
-export const useIsLogin = () => {
+export const useIsLogin = (): [boolean, Dispatch<SetStateAction<boolean>>] => {
   const [user, setUser] = useRecoilState(userState);
-  const [isLoginState, setISLoginState] = useState(false);
+  const [isLoginState, setIsLoginState] = useState(false);
 
   useEffect(() => {
     const getUserDataFromServer = async () => {
@@ -15,15 +15,16 @@ export const useIsLogin = () => {
         setUser({
           id: userData.user.ID,
           name: userData.user.NAME,
+          token: userData.accessToken,
         });
       }
     };
 
-    if (isLogin()) setISLoginState(true);
-    else setISLoginState(false);
+    if (isLogin()) setIsLoginState(true);
+    else setIsLoginState(false);
 
     if (isLogin() && user.name.length === 0) getUserDataFromServer();
   }, [user, setUser]);
 
-  return [isLoginState, setISLoginState];
+  return [isLoginState, setIsLoginState];
 };
