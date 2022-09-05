@@ -89,6 +89,7 @@ const LoginPage: NextPage = () => {
           setUser({
             id: userData.user.ID,
             name: userData.user.NAME,
+            token: userData.accessToken,
           });
           router.push('/');
         }

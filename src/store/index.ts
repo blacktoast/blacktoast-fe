@@ -5,5 +5,6 @@ export const userState = atom({
   default: {
     id: '',
     name: '',
+    token: '',
   }, // default value (aka initial value)
 });
