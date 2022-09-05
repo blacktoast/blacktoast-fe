@@ -77,26 +77,22 @@ const LoginPage: NextPage = () => {
     return true;
   };
 
-  const loginOnClick = () => {
-    const login = async () => {
-      try {
-        if (idValidate(id) && passwordValidate(password)) {
-          const userData = await userLogin({ id, password });
-          if (userData) {
-            setCookieForToken(userData?.accessToken);
-            setUser({
-              id: userData.user.ID,
-              name: userData.user.NAME,
-            });
-            router.push('/');
-          }
+  const loginOnClick = async () => {
+    try {
+      if (idValidate(id) && passwordValidate(password)) {
+        const userData = await userLogin({ id, password });
+        if (userData) {
+          setCookieForToken(userData?.accessToken);
+          setUser({
+            id: userData.user.ID,
+            name: userData.user.NAME,
+          });
+          router.push('/');
         }
-      } catch (error) {
-        console.error(error);
       }
-    };
-
-    login();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
