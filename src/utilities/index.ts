@@ -18,3 +18,14 @@ export const setCookieForToken = (token: string) => {
   const expireTime = new Date(Date.now() + ONE_HOURS_MILLISECONDS);
   document.cookie = `token=${token}; path=/; expires=${expireTime.toUTCString()}`;
 };
+
+export const getTokenByCookie = () => {
+  const { cookie } = document;
+  return cookie.split('=')[1];
+};
+
+export const isLogin = () => {
+  const token = getTokenByCookie();
+  if (token) return true;
+  return false;
+};
