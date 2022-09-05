@@ -3,6 +3,11 @@ import type { NextPage } from 'next';
 import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import { TextInput } from '../components/';
+import { userLogin } from '../apis';
+import { setCookieForToken } from '../utilities/index';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { userState } from '../store/index';
+import { useRouter } from 'next/router';
 
 const ERROR_INPUT_ID = '올바른 아이디 형식으로 입력해주세요.';
 const ERROR_INPUT_PASSWORD = '올바른 비밀번호 형식으로 입력해주세요.';
@@ -14,7 +19,8 @@ const LoginPage: NextPage = () => {
     id,
     password,
   });
-
+  const [user, setUser] = useRecoilState(userState);
+  const router = useRouter();
   const isLoginBtnAble = () => {
     if (
       id.length === 0 ||
@@ -56,8 +62,8 @@ const LoginPage: NextPage = () => {
   };
 
   const idValidate = (input: string) => {
-    const regxId = /[a-zA-Z0-9]{5,30}/;
-    if (!regxId.test(input)) {
+    const regId = /[a-zA-Z0-9]{5,30}/;
+    if (!regId.test(input)) {
       return false;
     }
     return true;
@@ -71,10 +77,26 @@ const LoginPage: NextPage = () => {
     return true;
   };
 
-  const loginOnClick = (e) => {
-    console.log(error);
+  const loginOnClick = () => {
+    const login = async () => {
+      try {
+        if (idValidate(id) && passwordValidate(password)) {
+          const userData = await userLogin({ id, password });
+          if (userData) {
+            setCookieForToken(userData?.accessToken);
+            setUser({
+              id: userData.user.ID,
+              name: userData.user.NAME,
+            });
+            router.push('/');
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-    console.log(e);
+    login();
   };
 
   return (
