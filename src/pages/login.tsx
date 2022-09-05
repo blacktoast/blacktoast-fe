@@ -1,13 +1,13 @@
-import Link from 'next/link';
 import type { NextPage } from 'next';
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { TextInput } from '../components/';
 import { userLogin } from '../apis';
-import { setCookieForToken } from '../utilities/index';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { isLogin, setCookieForToken } from '../utilities/index';
+import { useRecoilState } from 'recoil';
 import { userState } from '../store/index';
 import { useRouter } from 'next/router';
+import { Header } from '../components/Header';
 
 const ERROR_INPUT_ID = '올바른 아이디 형식으로 입력해주세요.';
 const ERROR_INPUT_PASSWORD = '올바른 비밀번호 형식으로 입력해주세요.';
@@ -21,6 +21,11 @@ const LoginPage: NextPage = () => {
   });
   const [user, setUser] = useRecoilState(userState);
   const router = useRouter();
+
+  useEffect(() => {
+    if (isLogin()) router.push('/');
+  }, [router]);
+
   const isLoginBtnAble = () => {
     if (
       id.length === 0 ||
@@ -97,14 +102,7 @@ const LoginPage: NextPage = () => {
 
   return (
     <>
-      <Header>
-        <Link href='/'>
-          <Title>HAUS</Title>
-        </Link>
-        <Link href='/login'>
-          <p>login</p>
-        </Link>
-      </Header>
+      <Header />
       <Form>
         <TextInput
           label='아이디'
@@ -114,7 +112,6 @@ const LoginPage: NextPage = () => {
           onChange={idOnChange}
           onFocusOut={idFocusOut}
         />
-
         <TextInput
           label='비밀번호'
           type='password'
@@ -123,7 +120,6 @@ const LoginPage: NextPage = () => {
           onChange={onPasswordChange}
           onFocusOut={passwordFocusOut}
         />
-
         {isLoginBtnAble() ? (
           <LoginButton type='submit' onClick={loginOnClick}>
             로그인
@@ -137,17 +133,6 @@ const LoginPage: NextPage = () => {
 };
 
 export default LoginPage;
-
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-`;
-
-const Title = styled.a`
-  font-size: 48px;
-`;
 
 const Form = styled.div`
   display: flex;
