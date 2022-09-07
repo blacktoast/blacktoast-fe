@@ -2,11 +2,7 @@ import { useRouter } from 'next/router';
 import type { NextPage } from 'next';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-
-import products from '../api/data/products.json';
-import ProductList from '../components/ProductList';
-import Pagination from '../components/Pagination';
-import { Header } from '../components';
+import { Header, Pagination, ProductList } from '../components';
 import { getProducts } from '../apis/products';
 import { usePagination } from '../hooks/usePagination';
 import { ERROR_NOTFOUND_PRODUCT_PAGE } from '../utilities/constants';
@@ -17,6 +13,7 @@ const PaginationPage: NextPage = () => {
   const page = Number(router.query.page);
   const [currentPage, pages, totalPage, setCurrentPage, setTotalCount] = usePagination({});
   const [error, setError] = useState('');
+  const [products, setProducts] = useState([]);
   useEffect(() => {
     const getData = async () => {
       try {
@@ -25,6 +22,8 @@ const PaginationPage: NextPage = () => {
           setError('');
           setTotalCount(data.totalCount);
           setCurrentPage(page);
+          setProducts(data.products);
+          console.log(data);
         }
       } catch (error) {
         setError(ERROR_NOTFOUND_PRODUCT_PAGE);
@@ -34,6 +33,10 @@ const PaginationPage: NextPage = () => {
     getData();
   }, [page, setCurrentPage, setTotalCount]);
 
+  const productOnClick = (id: string) => {
+    router.push(`/products/${id}`);
+  };
+
   return (
     <>
       <Header />
@@ -41,7 +44,7 @@ const PaginationPage: NextPage = () => {
         <Error title={error} />
       ) : (
         <Container>
-          <ProductList products={products.slice(0, 10)} />
+          <ProductList products={products} onClick={productOnClick} />
           <Pagination currentPage={currentPage} pages={pages} totalPage={totalPage} />
         </Container>
       )}

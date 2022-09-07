@@ -1,20 +1,23 @@
+import { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 
 import { Product } from '../types/product';
 
 type ProductItemProps = {
   product: Product;
+  onClick: MouseEventHandler<HTMLAnchorElement>;
 };
 
-const ProductItem = ({ product: { name, thumbnail, price } }: ProductItemProps) => (
-  <Container>
+export const ProductItem = ({
+  product: { name, thumbnail, price, id },
+  onClick,
+}: ProductItemProps) => (
+  <Container onClick={onClick}>
     <Thumbnail src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} />
     <Name>{name}</Name>
     <Price>{price}</Price>
   </Container>
 );
-
-export default ProductItem;
 
 const Container = styled.a`
   width: 180px;

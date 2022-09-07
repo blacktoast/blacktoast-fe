@@ -1,21 +1,29 @@
+import { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 
 import { Product } from '../types/product';
-import ProductItem from './ProductItem';
+import { ProductItem } from '.';
+
+type productOnClick = (id: string) => void;
 
 type ProductListProps = {
   products: Product[];
+  onClick?: productOnClick;
 };
 
-const ProductList = ({ products }: ProductListProps) => (
+export const ProductList = ({ products, onClick }: ProductListProps) => (
   <Container>
     {products.map((product) => (
-      <ProductItem key={product.id} product={product} />
+      <ProductItem
+        key={product.id}
+        product={product}
+        onClick={() => {
+          if (onClick) onClick(product.id);
+        }}
+      />
     ))}
   </Container>
 );
-
-export default ProductList;
 
 const Container = styled.div`
   display: flex;
