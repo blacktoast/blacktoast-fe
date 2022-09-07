@@ -9,7 +9,7 @@ type PaginationProp = {
   totalPage: number;
 };
 
-const Pagination = ({ currentPage = 1, pages = [], totalPage }: PaginationProp) => {
+export const Pagination = ({ currentPage = 1, pages = [], totalPage }: PaginationProp) => {
   const router = useRouter();
   const isPrevBtn = pages[0] === 1 ? true : false;
   const isNextBtn = pages[pages.length - 1] === totalPage ? true : false;
@@ -51,8 +51,6 @@ const Pagination = ({ currentPage = 1, pages = [], totalPage }: PaginationProp) 
     </Container>
   );
 };
-
-export default Pagination;
 
 const Container = styled.div`
   display: flex;
