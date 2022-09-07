@@ -2,6 +2,7 @@ import { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 
 import { Product } from '../types/product';
+import { formatPrice } from '../utilities';
 
 type ProductItemProps = {
   product: Product;
@@ -13,9 +14,9 @@ export const ProductItem = ({
   onClick,
 }: ProductItemProps) => (
   <Container onClick={onClick}>
-    <Thumbnail src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} />
+    <Thumbnail loading='lazy' src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} />
     <Name>{name}</Name>
-    <Price>{price}</Price>
+    <Price>{formatPrice(price)}</Price>
   </Container>
 );
 

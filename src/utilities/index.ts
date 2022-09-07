@@ -37,3 +37,14 @@ export const isLogin = () => {
   if (token) return true;
   return false;
 };
+
+export const formatPrice = (price: number) => {
+  let commaNumber = 0;
+  while (price >= 1000) {
+    price = price / 1000;
+    commaNumber += 1;
+  }
+  const formattedPrice = String(price).concat(',000'.repeat(commaNumber));
+
+  return formattedPrice;
+};
