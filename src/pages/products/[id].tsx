@@ -1,38 +1,51 @@
-import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
-import React from 'react';
+import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import products from '../../api/data/products.json';
 import { Header } from '../../components';
-import { Product } from '../../types/product';
 import { formatPrice } from '../../utilities';
+import { useDataFetch } from '../../hooks/useDataFetch';
+import { getProduct } from '../../apis/products';
 
-export const getStaticPaths = () => {
-  const paths = products.map((product) => ({ params: { id: product.id } }));
-  return {
-    paths,
-    fallback: false,
-  };
+type RequestType = {
+  id: number;
 };
 
-// `getStaticPaths` requires using `getStaticProps`
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const product: Product = products[Number(params?.id) - 1];
-  return {
-    props: { product },
-  };
-};
+const ProductDetailPage: NextPage = () => {
+  const router = useRouter();
+  const [status, data, getData] = useDataFetch<RequestType, any>({
+    apiFunc: getProduct,
+  });
 
-const ProductDetailPage: NextPage = ({
-  product,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  useEffect(() => {
+    const { id } = router.query;
+    if (id) {
+      getData({ id: Number(id) });
+    }
+  }, [router, getData]);
+
+  useEffect(() => {
+    if (status === 'Error') {
+      router.push('/404', router.asPath);
+    }
+  }, [router, status]);
+
   return (
     <>
-      <Header />
-      <Thumbnail src={product.thumbnail ? product.thumbnail : '/defaultThumbnail.jpg'} />
-      <ProductInfoWrapper>
-        <Name>{product.name}</Name>
-        <Price>{formatPrice(product.price)}원</Price>
-      </ProductInfoWrapper>
+      {status === 'Loading' || status === 'Error' ? (
+        <h1>{status}</h1>
+      ) : (
+        <>
+          <Header />
+          <Thumbnail
+            src={data.product.thumbnail ? data.product.thumbnail : '/defaultThumbnail.jpg'}
+          />
+          <ProductInfoWrapper>
+            <Name>{data.product.name}</Name>
+            <Price>{formatPrice(data.product.price)}원</Price>
+          </ProductInfoWrapper>
+        </>
+      )}
     </>
   );
 };
