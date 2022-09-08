@@ -1,23 +1,25 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { RefCallback, RefObject, useCallback, useEffect, useRef, useState } from 'react';
 
-export const useInView = (): [RefObject<HTMLDivElement>, boolean] => {
+export const useInView = (): [RefCallback<HTMLElement>, boolean] => {
   const [inView, setInView] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const options = {
-      threshold: 1.0,
-    };
-    let observer: IntersectionObserver;
-
-    if (ref.current) {
-      observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) setInView(true);
-        if (!entries[0].isIntersecting) setInView(false);
-      }, options);
-      observer.observe(ref.current);
+  const ref = useCallback((node: HTMLElement) => {
+    if (node !== null) {
+      const options = {
+        threshold: 1.0,
+      };
+      let observer: IntersectionObserver;
+      if (node) {
+        observer = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) setInView(true);
+          if (!entries[0].isIntersecting) setInView(false);
+        }, options);
+        observer.observe(node);
+      }
     }
-    return () => observer && observer.disconnect();
-  }, [ref]);
+  }, []);
+  // useEffect(() => {
+
+  // }, [ref]);
 
   return [ref, inView];
 };
