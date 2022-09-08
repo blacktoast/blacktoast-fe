@@ -7,13 +7,15 @@ import { getProducts } from '../apis/products';
 import { usePagination } from '../hooks/usePagination';
 import { ERROR_NOTFOUND_PRODUCT_PAGE } from '../utilities/constants';
 import { Error } from '../components/Error';
+import { Product } from '../types/product';
 
 const PaginationPage: NextPage = () => {
   const router = useRouter();
   const page = Number(router.query.page);
   const [currentPage, pages, totalPage, setCurrentPage, setTotalCount] = usePagination({});
   const [error, setError] = useState('');
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
+
   useEffect(() => {
     const getData = async () => {
       try {
