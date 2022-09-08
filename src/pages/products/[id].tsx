@@ -1,44 +1,43 @@
-import Link from 'next/link';
-import type { NextPage } from 'next';
+import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 import React from 'react';
 import styled from 'styled-components';
-
 import products from '../../api/data/products.json';
+import { Header } from '../../components';
+import { Product } from '../../types/product';
+import { formatPrice } from '../../utilities';
 
-const ProductDetailPage: NextPage = () => {
-  const product = products[0];
+export const getStaticPaths = () => {
+  const paths = products.map((product) => ({ params: { id: product.id } }));
+  return {
+    paths,
+    fallback: false,
+  };
+};
 
+// `getStaticPaths` requires using `getStaticProps`
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const product: Product = products[Number(params?.id) - 1];
+  return {
+    props: { product },
+  };
+};
+
+const ProductDetailPage: NextPage = ({
+  product,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
-      <Header>
-        <Link href='/'>
-          <Title>HAUS</Title>
-        </Link>
-        <Link href='/login'>
-          <p>login</p>
-        </Link>
-      </Header>
+      <Header />
       <Thumbnail src={product.thumbnail ? product.thumbnail : '/defaultThumbnail.jpg'} />
       <ProductInfoWrapper>
         <Name>{product.name}</Name>
-        <Price>{product.price}원</Price>
+        <Price>{formatPrice(product.price)}원</Price>
       </ProductInfoWrapper>
     </>
   );
 };
 
 export default ProductDetailPage;
-
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-`;
-
-const Title = styled.a`
-  font-size: 48px;
-`;
 
 const Thumbnail = styled.img`
   width: 100%;
