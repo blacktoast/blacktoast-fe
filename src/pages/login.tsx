@@ -1,13 +1,12 @@
 import type { NextPage } from 'next';
-import React, { ChangeEvent, useState, useEffect } from 'react';
+import React, { ChangeEvent, useState, useEffect, FormEvent } from 'react';
 import styled from 'styled-components';
-import { TextInput } from '../components/';
+import { Header, InputWithLabel } from '../components/';
 import { userLogin } from '../apis';
-import { isLogin, setCookieForToken } from '../utilities/index';
+import { isLogin, setCookieForToken } from '../utilities';
 import { useRecoilState } from 'recoil';
 import { userState } from '../store/index';
 import { useRouter } from 'next/router';
-import { Header } from '../components/Header';
 import { ERROR_INPUT_ID, ERROR_INPUT_PASSWORD } from '../utilities/constants';
 
 const LoginPage: NextPage = () => {
@@ -80,7 +79,8 @@ const LoginPage: NextPage = () => {
     return true;
   };
 
-  const loginOnClick = async () => {
+  const loginSubmit = async (e: FormEvent) => {
+    e.preventDefault();
     try {
       if (idValidate(id) && passwordValidate(password)) {
         const userData = await userLogin({ id, password });
@@ -102,8 +102,8 @@ const LoginPage: NextPage = () => {
   return (
     <>
       <Header />
-      <Form>
-        <TextInput
+      <Form onSubmit={loginSubmit}>
+        <InputWithLabel
           label='아이디'
           type='text'
           value={id}
@@ -111,18 +111,17 @@ const LoginPage: NextPage = () => {
           onChange={idOnChange}
           onFocusOut={idFocusOut}
         />
-        <TextInput
+        <InputWithLabel
           label='비밀번호'
           type='password'
           value={password}
           error={error.password}
           onChange={onPasswordChange}
           onFocusOut={passwordFocusOut}
+          style={{ marginTop: '16px' }}
         />
         {isLoginBtnAble() ? (
-          <LoginButton type='submit' onClick={loginOnClick}>
-            로그인
-          </LoginButton>
+          <LoginButton type='submit'>로그인</LoginButton>
         ) : (
           <LoginButton disabled>로그인</LoginButton>
         )}
@@ -133,7 +132,7 @@ const LoginPage: NextPage = () => {
 
 export default LoginPage;
 
-const Form = styled.div`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
   margin-top: 40px;
