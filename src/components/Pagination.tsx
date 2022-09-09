@@ -30,7 +30,7 @@ export const Pagination = ({ currentPage = 1, pages = [], totalPage }: Paginatio
 
   return (
     <Container>
-      <Button disabled={isPrevBtn} onClick={prevOnClick}>
+      <Button disabled={isPrevBtn} onClick={prevOnClick} aria-label='prevPageRange'>
         <VscChevronLeft />
       </Button>
       <PageWrapper>
@@ -45,7 +45,7 @@ export const Pagination = ({ currentPage = 1, pages = [], totalPage }: Paginatio
           </Page>
         ))}
       </PageWrapper>
-      <Button disabled={isNextBtn} onClick={nextOnClick}>
+      <Button disabled={isNextBtn} onClick={nextOnClick} aria-label='nextPageRange'>
         <VscChevronRight />
       </Button>
     </Container>

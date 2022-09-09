@@ -14,7 +14,7 @@ export const ProductItem = ({
   onClick,
 }: ProductItemProps) => (
   <Container onClick={onClick}>
-    <Thumbnail loading='lazy' src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} />
+    <Thumbnail loading='lazy' src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} alt={name} />
     <Name>{name}</Name>
     <Price>{formatPrice(price)}</Price>
   </Container>

@@ -20,7 +20,7 @@ export const Header = ({}) => {
   return (
     <Style.Header>
       <Link href='/'>
-        <Style.Title>HAUS</Style.Title>
+        <Style.Title href='/'>HAUS</Style.Title>
       </Link>
       {isLoginState ? (
         <Style.userInfo>
@@ -28,9 +28,7 @@ export const Header = ({}) => {
           <p onClick={logoutOnClick}>logout</p>
         </Style.userInfo>
       ) : (
-        <Link href='/login'>
-          <p>login</p>
-        </Link>
+        <Link href='/login'>login</Link>
       )}
     </Style.Header>
   );
