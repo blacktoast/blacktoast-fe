@@ -15,8 +15,8 @@ export const getProducts = async ({ page = 1, size = 10 }) => {
   }
 };
 
-type getProductType = {
-  id: number;
+export type getProductType = {
+  id: string;
 };
 
 export const getProduct = async ({ id }: getProductType) => {

@@ -5,22 +5,18 @@ import styled from 'styled-components';
 import { Header } from '../../components';
 import { formatPrice } from '../../utilities';
 import { useDataFetch } from '../../hooks/useDataFetch';
-import { getProduct } from '../../apis/products';
-
-type RequestType = {
-  id: number;
-};
+import { getProduct, getProductType } from '../../apis/products';
 
 const ProductDetailPage: NextPage = () => {
   const router = useRouter();
-  const [status, data, getData] = useDataFetch<RequestType, any>({
+  const [status, data, getData] = useDataFetch<getProductType, any>({
     apiFunc: getProduct,
   });
 
   useEffect(() => {
     const { id } = router.query;
-    if (id) {
-      getData({ id: Number(id) });
+    if (typeof id === 'string') {
+      getData({ id });
     }
   }, [router, getData]);
 
