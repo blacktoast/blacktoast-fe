@@ -7,6 +7,7 @@ import { useRecoilState } from 'recoil';
 import { infinityState } from '../store';
 import { getProducts } from '../apis';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 type RequestType = {
   page: number;
@@ -56,6 +57,9 @@ const InfiniteScrollPage: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <meta name='description' content='제품 목록 페이지 무한 스크롤' />
+      </Head>
       <Header />
       <Container>
         <ProductList products={pageState.products} onClick={productOnClick} href='/products' />

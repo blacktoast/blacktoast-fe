@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Header, Pagination, ProductList } from '../components';
 import { getProducts } from '../apis';
 import { useDataFetch, usePagination } from '../hooks';
+import Head from 'next/head';
 
 type RequestType = {
   page: number;
@@ -35,6 +36,9 @@ const PaginationPage: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <meta name='description' content='제품 목록 페이지 페이지네이션' />
+      </Head>
       <Header />
       {status === 'Loading' || status === 'Error' ? (
         <h1>Loading..</h1>

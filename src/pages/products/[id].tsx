@@ -6,6 +6,7 @@ import { Header } from '../../components';
 import { formatPrice } from '../../utilities';
 import { useDataFetch } from '../../hooks';
 import { getProduct, getProductType } from '../../apis/';
+import Head from 'next/head';
 
 const ProductDetailPage: NextPage = () => {
   const router = useRouter();
@@ -32,6 +33,9 @@ const ProductDetailPage: NextPage = () => {
         <h1>{status}</h1>
       ) : (
         <>
+          <Head>
+            <meta name='description' content={`제품 상세 페이지 ${data.product.name}`} />
+          </Head>
           <Header />
           <Thumbnail
             src={data.product.thumbnail ? data.product.thumbnail : '/defaultThumbnail.jpg'}
