@@ -6,6 +6,8 @@ import { Header, Pagination, ProductList } from '../components';
 import { getProducts } from '../apis';
 import { useDataFetch, usePagination } from '../hooks';
 import Head from 'next/head';
+import { useRecoilState } from 'recoil';
+import { paginationScrollState } from '../store/index';
 
 type RequestType = {
   page: number;
@@ -18,6 +20,11 @@ const PaginationPage: NextPage = () => {
   const [status, data, getData] = useDataFetch<RequestType, any>({
     apiFunc: getProducts,
   });
+  const [scroll, setScroll] = useRecoilState(paginationScrollState);
+
+  useEffect(() => {
+    if (status !== 'Loading') window.scrollTo(0, scroll.offsetY);
+  }, [status, scroll]);
 
   useEffect(() => {
     if (page) getData({ page: Number(page) });
@@ -34,6 +41,10 @@ const PaginationPage: NextPage = () => {
     }
   }, [data, status, page, setCurrentPage, setTotalCount, router]);
 
+  const productOnClick = () => {
+    setScroll({ offsetY: window.scrollY });
+  };
+
   return (
     <>
       <Head>
@@ -44,7 +55,7 @@ const PaginationPage: NextPage = () => {
         <h1>Loading..</h1>
       ) : (
         <Container>
-          <ProductList products={data.products} href={`/products`} />
+          <ProductList products={data.products} href={`/products`} onClick={productOnClick} />
           <Pagination currentPage={currentPage} pages={pages} totalPage={totalPage} />
         </Container>
       )}

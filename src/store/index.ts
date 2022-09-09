@@ -26,3 +26,10 @@ export const infinityState = atom<InfinityState>({
     totalCount: 0,
   },
 });
+
+export const paginationScrollState = atom({
+  key: 'paginationScroll',
+  default: {
+    offsetY: 0,
+  },
+});
