@@ -47,7 +47,7 @@ const InfiniteScrollPage: NextPage = () => {
     }
   }, [data, status]);
 
-  const productOnClick = (id: string) => {
+  const productOnClick = () => {
     setPageState({ ...pageState, offsetY: window.scrollY });
   };
 
