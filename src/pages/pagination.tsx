@@ -3,9 +3,8 @@ import type { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Header, Pagination, ProductList } from '../components';
-import { getProducts } from '../apis/products';
-import { usePagination } from '../hooks/usePagination';
-import { useDataFetch } from '../hooks';
+import { getProducts } from '../apis';
+import { useDataFetch, usePagination } from '../hooks';
 
 type RequestType = {
   page: number;
@@ -34,10 +33,6 @@ const PaginationPage: NextPage = () => {
     }
   }, [data, status, page, setCurrentPage, setTotalCount, router]);
 
-  const productOnClick = (id: string) => {
-    router.push(`/products/${id}`);
-  };
-
   return (
     <>
       <Header />
@@ -45,7 +40,7 @@ const PaginationPage: NextPage = () => {
         <h1>Loading..</h1>
       ) : (
         <Container>
-          <ProductList products={data.products} onClick={productOnClick} />
+          <ProductList products={data.products} href={`/products`} />
           <Pagination currentPage={currentPage} pages={pages} totalPage={totalPage} />
         </Container>
       )}

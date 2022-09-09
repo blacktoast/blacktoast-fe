@@ -9,9 +9,10 @@ type productOnClick = (id: string) => void;
 type ProductListProps = {
   products: Product[];
   onClick?: productOnClick;
+  href?: string;
 };
 
-export const ProductList = ({ products, onClick }: ProductListProps) => (
+export const ProductList = ({ products, onClick, href }: ProductListProps) => (
   <Container>
     {products.map((product) => (
       <ProductItem
@@ -20,6 +21,7 @@ export const ProductList = ({ products, onClick }: ProductListProps) => (
         onClick={() => {
           if (onClick) onClick(product.id);
         }}
+        href={`${href}/${product.id}`}
       />
     ))}
   </Container>

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 
@@ -6,18 +7,22 @@ import { formatPrice } from '../utilities';
 
 type ProductItemProps = {
   product: Product;
-  onClick: MouseEventHandler<HTMLAnchorElement>;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
+  href?: string;
 };
 
 export const ProductItem = ({
   product: { name, thumbnail, price, id },
   onClick,
+  href,
 }: ProductItemProps) => (
-  <Container onClick={onClick}>
-    <Thumbnail loading='lazy' src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} alt={name} />
-    <Name>{name}</Name>
-    <Price>{formatPrice(price)}</Price>
-  </Container>
+  <Link href={`${href}`}>
+    <Container onClick={onClick} href={`${href}`}>
+      <Thumbnail loading='lazy' src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} alt={name} />
+      <Name>{name}</Name>
+      <Price>{formatPrice(price)}</Price>
+    </Container>
+  </Link>
 );
 
 const Container = styled.a`

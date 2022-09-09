@@ -2,12 +2,11 @@ import type { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Header, ProductList } from '../components/';
-import { useInView } from '../hooks/useInView';
+import { useInView, useDataFetch } from '../hooks';
 import { useRecoilState } from 'recoil';
 import { infinityState } from '../store';
-import { getProducts } from '../apis/products';
+import { getProducts } from '../apis';
 import { useRouter } from 'next/router';
-import { useDataFetch } from '../hooks';
 
 type RequestType = {
   page: number;
@@ -49,7 +48,6 @@ const InfiniteScrollPage: NextPage = () => {
 
   const productOnClick = (id: string) => {
     setPageState({ ...pageState, offsetY: window.scrollY });
-    router.push(`/products/${id}`);
   };
 
   const isFinishInfinityScroll = () => {
@@ -60,12 +58,8 @@ const InfiniteScrollPage: NextPage = () => {
     <>
       <Header />
       <Container>
-        <ProductList products={pageState.products} onClick={productOnClick} />
-        {isFinishInfinityScroll() && (
-          <div ref={ref}>
-            {pageState.products.length} {pageState.totalCount}
-          </div>
-        )}
+        <ProductList products={pageState.products} onClick={productOnClick} href='/products' />
+        {isFinishInfinityScroll() && <div ref={ref}></div>}
       </Container>
     </>
   );
