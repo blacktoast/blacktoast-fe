@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
+import { RecoilRoot } from 'recoil';
 import styled from 'styled-components';
-
 import setupMSW from '../api/setup';
 import GlobalStyle from '../styles/GlobalStyle';
 
@@ -9,11 +10,16 @@ setupMSW();
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <GlobalStyle />
-      <Background />
-      <Content>
-        <Component {...pageProps} />
-      </Content>
+      <Head>
+        <title>SixShop test</title>
+      </Head>
+      <RecoilRoot>
+        <GlobalStyle />
+        <Background />
+        <Content>
+          <Component {...pageProps} />
+        </Content>
+      </RecoilRoot>
     </>
   );
 }

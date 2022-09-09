@@ -1,20 +1,29 @@
+import Link from 'next/link';
+import { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 
 import { Product } from '../types/product';
+import { formatPrice } from '../utilities';
 
 type ProductItemProps = {
   product: Product;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
+  href?: string;
 };
 
-const ProductItem = ({ product: { name, thumbnail, price } }: ProductItemProps) => (
-  <Container>
-    <Thumbnail src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} />
-    <Name>{name}</Name>
-    <Price>{price}</Price>
-  </Container>
+export const ProductItem = ({
+  product: { name, thumbnail, price, id },
+  onClick,
+  href,
+}: ProductItemProps) => (
+  <Link href={`${href}`}>
+    <Container onClick={onClick} href={`${href}`}>
+      <Thumbnail loading='lazy' src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} alt={name} />
+      <Name>{name}</Name>
+      <Price>{formatPrice(price)}</Price>
+    </Container>
+  </Link>
 );
-
-export default ProductItem;
 
 const Container = styled.a`
   width: 180px;

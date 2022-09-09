@@ -1,28 +1,56 @@
-import React from 'react';
+import React, { Dispatch, MouseEvent, MouseEventHandler, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { VscChevronLeft, VscChevronRight } from 'react-icons/vsc';
+import { useRouter } from 'next/router';
 
-const Pagination = () => {
+type PaginationProp = {
+  currentPage: number;
+  pages: number[];
+  totalPage: number;
+};
+
+export const Pagination = ({ currentPage = 1, pages = [], totalPage }: PaginationProp) => {
+  const router = useRouter();
+  const isPrevBtn = pages[0] === 1 ? true : false;
+  const isNextBtn = pages[pages.length - 1] === totalPage ? true : false;
+
+  const pageOnClick: MouseEventHandler<HTMLButtonElement> = (e) => {
+    const test = e.target as HTMLElement;
+    const clickedPage = Number(test.textContent);
+    if (currentPage) router.push(`/pagination?page=${clickedPage}`);
+  };
+
+  const prevOnClick = () => {
+    router.push(`/pagination?page=${pages[0] - 1}`);
+  };
+
+  const nextOnClick = () => {
+    router.push(`/pagination?page=${pages[pages.length - 1] + 1}`);
+  };
+
   return (
     <Container>
-      <Button disabled>
+      <Button disabled={isPrevBtn} onClick={prevOnClick} aria-label='prevPageRange'>
         <VscChevronLeft />
       </Button>
       <PageWrapper>
-        {[1, 2, 3, 4, 5].map((page) => (
-          <Page key={page} selected={page === 1} disabled={page === 1}>
+        {pages.map((page) => (
+          <Page
+            key={page}
+            selected={page === currentPage}
+            disabled={page === currentPage}
+            onClick={pageOnClick}
+          >
             {page}
           </Page>
         ))}
       </PageWrapper>
-      <Button disabled={false}>
+      <Button disabled={isNextBtn} onClick={nextOnClick} aria-label='nextPageRange'>
         <VscChevronRight />
       </Button>
     </Container>
   );
 };
-
-export default Pagination;
 
 const Container = styled.div`
   display: flex;
