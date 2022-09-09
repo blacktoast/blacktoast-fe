@@ -53,5 +53,10 @@ Light House - SEO,접근성 100점
 상세 페이지로 이동후 다시 페이지네이션 페이지로 왔을때 기존 스크롤 복원
 
 ## 선택구현사항
+
 - [x] lazy loading - img 태그 프로퍼티로 구현
 - [x] login test
+
+
+
+
