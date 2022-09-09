@@ -18,7 +18,7 @@ export const userLogin = async ({ id, password }: loginUser) => {
 
     return data.data;
   } catch (error) {
-    console.log(error);
+    return Promise.reject(error);
   }
 };
 
@@ -29,7 +29,7 @@ export const userLogout = async (token: string) => {
     }
     return false;
   } catch (error) {
-    console.log(error);
+    return Promise.reject(error);
   }
 };
 
@@ -44,6 +44,6 @@ export const getMe = async (token: string) => {
       return data.data;
     }
   } catch (error) {
-    console.log(error);
+    return Promise.reject(error);
   }
 };

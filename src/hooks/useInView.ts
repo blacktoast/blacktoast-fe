@@ -1,4 +1,4 @@
-import { RefCallback, RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { RefCallback, useCallback, useState } from 'react';
 
 export const useInView = (): [RefCallback<HTMLElement>, boolean] => {
   const [inView, setInView] = useState(false);
@@ -17,9 +17,6 @@ export const useInView = (): [RefCallback<HTMLElement>, boolean] => {
       }
     }
   }, []);
-  // useEffect(() => {
-
-  // }, [ref]);
 
   return [ref, inView];
 };

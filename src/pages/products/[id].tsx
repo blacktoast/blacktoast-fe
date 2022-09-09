@@ -4,8 +4,8 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Header } from '../../components';
 import { formatPrice } from '../../utilities';
-import { useDataFetch } from '../../hooks/useDataFetch';
-import { getProduct, getProductType } from '../../apis/products';
+import { useDataFetch } from '../../hooks';
+import { getProduct, getProductType } from '../../apis/';
 
 const ProductDetailPage: NextPage = () => {
   const router = useRouter();

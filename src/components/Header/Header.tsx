@@ -2,7 +2,7 @@ import Link from 'next/link';
 import * as Style from './style';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store';
-import { useIsLogin } from '../../hooks/useIsLogin';
+import { useIsLogin } from '../../hooks';
 import { userLogout } from '../../apis';
 
 export const Header = ({}) => {

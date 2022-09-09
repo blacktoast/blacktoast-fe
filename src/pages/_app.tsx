@@ -2,7 +2,6 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { RecoilRoot } from 'recoil';
 import styled from 'styled-components';
-
 import setupMSW from '../api/setup';
 import GlobalStyle from '../styles/GlobalStyle';
 

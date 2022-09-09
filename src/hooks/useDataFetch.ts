@@ -15,9 +15,7 @@ export const useDataFetch = <ArgsType, responseType>({
       try {
         if (args) {
           setStatus('Loading');
-          console.log('ars', args);
           const data = await apiFunc({ ...args });
-          console.log(data);
           setData(data);
           setStatus('');
         }

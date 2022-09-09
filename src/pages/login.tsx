@@ -5,9 +5,10 @@ import { Header, InputWithLabel } from '../components/';
 import { userLogin } from '../apis';
 import { isLogin, setCookieForToken } from '../utilities';
 import { useRecoilState } from 'recoil';
-import { userState } from '../store/index';
+import { userState } from '../store';
 import { useRouter } from 'next/router';
 import { ERROR_INPUT_ID, ERROR_INPUT_PASSWORD } from '../utilities/constants';
+import Head from 'next/head';
 
 const LoginPage: NextPage = () => {
   const [id, setId] = useState('');
@@ -101,6 +102,10 @@ const LoginPage: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <meta name='description' content='login page' />
+      </Head>
+
       <Header />
       <Form onSubmit={loginSubmit}>
         <InputWithLabel

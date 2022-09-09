@@ -7,12 +7,10 @@ export const apiClient = axios.create({
 
 apiClient.interceptors.response.use(
   (response) => {
-    console.log(response);
     return response.data;
   },
-  (error) => {
-    console.log(error);
 
+  (error) => {
     return Promise.reject(error.response.data.error);
   }
 );

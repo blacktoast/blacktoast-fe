@@ -1,8 +1,7 @@
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
-import { Header } from '../components/';
+import { Header, Error } from '../components/';
 import { useRouter } from 'next/router';
-import { Error } from '../components';
 import {
   ERROR_NOTFOUND_PRODUCTS_DETAIL_PAGE,
   ERROR_NOTFOUND_PRODUCTS_PAGE,
@@ -17,7 +16,6 @@ const ProductDetailPage: NextPage = () => {
   const router = useRouter();
   useEffect(() => {
     const errorPageType = router.asPath.split('/')[1].replace(/\?.*/, '');
-    console.log(router.asPath, errorPageType);
     const errorMessageByType: errorType = {
       products: ERROR_NOTFOUND_PRODUCTS_DETAIL_PAGE,
       pagination: ERROR_NOTFOUND_PRODUCTS_PAGE,
